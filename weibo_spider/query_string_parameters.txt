@@ -1,4 +1,0 @@
-q: 疫情
-typeall: 1
-suball: 1
-Refer: g
