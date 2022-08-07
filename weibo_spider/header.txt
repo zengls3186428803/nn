@@ -1,0 +1,15 @@
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9
+cache-control: max-age=0
+cookie: PC_TOKEN=de79ee7db0; login_sid_t=378674eac090c06e43541747728c4ce6; cross_origin_proto=SSL; _s_tentry=passport.weibo.com; Apache=1935123821731.3237.1659836292015; SINAGLOBAL=1935123821731.3237.1659836292015; ULV=1659836292017:1:1:1:1935123821731.3237.1659836292015:; UOR=,,www.google.com.hk; SUB=_2A25P62eBDeThGeNL71cY8ijOyTWIHXVsgd5JrDV8PUNbmtANLXWmkW9NSNci_gfvdzybV3rcyVltXJyTY7Ziejsb; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFwTyb_QQA69rjz0coUS.Y.5JpX5KzhUgL.Fo-fSh-4eoqEeo.2dJLoIp7LxKML1KBLBKnLxKqL1hnLBoMfSKBf1Kzceoz4; ALF=1691372368; SSOLoginState=1659836369
+referer: https://s.weibo.com/weibo?q=%E7%96%AB%E6%83%85
+sec-ch-ua: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+sec-fetch-dest: document
+sec-fetch-mode: navigate
+sec-fetch-site: same-origin
+sec-fetch-user: ?1
+upgrade-insecure-requests: 1
+user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
