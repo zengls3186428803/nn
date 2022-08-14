@@ -2,7 +2,6 @@ import numpy as np
 from rnn_utils import softmax, sigmoid
 
 
-# 没有实现lstm的传播
 class Rnn(object):
     def __init__(self, n_a=5):
         self.unit = "lstm"
