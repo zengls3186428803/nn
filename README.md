@@ -20,9 +20,13 @@
 #### project 里为项目神经网络训练和预测的代码
 #### tools 里是一些辅助程序
 Sniffer.py 递归地探测指定pattern的文件
+
 Transformer.py 用于数据格式转化
+
 activate* 是激活函数和以及激活函数的微分
+
 decorator_set.py 为计时器修饰器
+
 resource_monitor.py 用于资源监测
 #### weibo_spider 里为python爬虫程序。
 #### nn目录下的其他*.py文件
