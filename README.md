@@ -1,11 +1,16 @@
-## 一个自然语言情感分类项目。
-## 项目的流程为：
-1. 首先使用python爬虫爬取微博上的网民言论。
-2. 将爬取完的句子进行清洗、标注情感标签 。
-3. 使用预训练的BERT模型对句子进行编码，得到含有整个句子信息的特征向量序列，然后将特征向量序列放入LSTM网络进行训练。
-4. 用训练完的LSTM和预训练的BERT模型来进行预测，将网民的言论按情感分类，最后的到情感分布。
-## 目录结构说明
-#### project 里为项目神经网络训练和预测的代码
-#### tools 里是一些辅助程序
-#### weibo_spider 里为python爬虫程序。
-#### nn目录下的其他*.py文件
+# 文件说明
+1. dnn.py 为numpy实现的全连接神经网络，含反向传播
+
+2. cnn.py 为tensorflow的卷积神经网络例子
+   
+3. transformer.py 为用pytorch实现的Transfomer
+
+4. rnn_lstm.py 为numpy实现的rnn和lstm代码，含反向传播
+
+5. machine_translate_with_transformer.py 为使用transformer.py里的Transformer实现的机器翻译程序
+
+6. NetizenSpeechResearchProject 为网民情绪研究项目的部分代码。
+
+7. tools目录下是一些python写的实用程序
+
+8. weibo_spider目录里是微博爬虫代码
