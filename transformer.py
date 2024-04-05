@@ -1,6 +1,9 @@
+﻿import math
+
 import torch
-import math
 from torch import Tensor
+
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 class PositionalEncoder(torch.nn.Module):
@@ -32,11 +35,11 @@ class MultiHeadAttention(torch.nn.Module):
         self.d_model = d_model
         self.d_k = d_model // heads  # 总维数应该要能整除注意力头数， d_k为每个注意力头的维数。
         self.h = heads
-        self.q_linear = torch.nn.Linear(d_model, d_model)  # 可以理解为词向量内部的多个特征之间的组合
-        self.k_linear = torch.nn.Linear(d_model, d_model)  # 可以理解为词向量内部的多个特征之间的组合
-        self.v_linear = torch.nn.Linear(d_model, d_model)  # 可以理解为词向量内部的多个特征之间的组合
+        self.q_linear = torch.nn.Linear(d_model, d_model).to(DEVICE)  # 可以理解为词向量内部的多个特征之间的组合
+        self.k_linear = torch.nn.Linear(d_model, d_model).to(DEVICE)  # 可以理解为词向量内部的多个特征之间的组合
+        self.v_linear = torch.nn.Linear(d_model, d_model).to(DEVICE)  # 可以理解为词向量内部的多个特征之间的组合
         self.dropout = torch.nn.Dropout(dropout)
-        self.out = torch.nn.Linear(d_model, d_model)
+        self.out = torch.nn.Linear(d_model, d_model).to(DEVICE)
 
     def attention(self, q, k, v, d_k, mask=None, dropout=None):
         # src_mask.size = (batch_size, num_head, src_seq_L, src_seq_L)
@@ -49,7 +52,7 @@ class MultiHeadAttention(torch.nn.Module):
         # 掩盖掉那些为了填补长度增加的单元,使其通过 softmax 计算后为 0
         # if mask is not None:
         #     mask = mask.unsqueeze(1)
-        scores = scores.masked_fill(mask == 0, -1e9)  # 如果为0,就填充成一个趋近于负无穷。这样softmax之后为0
+        scores = scores.masked_fill(mask == 1, float("-inf"))  # 如果为1,就填充成一个趋近于负无穷。这样softmax之后为0
         # 把最后一维归一化。 相当于按行归一化。q,k,v的size都是(bs, seq_L, d_k)
         # scores 的维度是(batch_size, seq_L, seq_L)
         scores = torch.softmax(scores, dim=-1)
@@ -87,9 +90,9 @@ class FeedForward(torch.nn.Module):
     def __init__(self, d_model, d_ff=2048, dropout=0.1):
         super().__init__()
         # d_ff 默认设置为 2048
-        self.linear_1 = torch.nn.Linear(d_model, d_ff)
+        self.linear_1 = torch.nn.Linear(d_model, d_ff).to(DEVICE)
         self.dropout = torch.nn.Dropout(dropout)
-        self.linear_2 = torch.nn.Linear(d_ff, d_model)
+        self.linear_2 = torch.nn.Linear(d_ff, d_model).to(DEVICE)
 
     def forward(self, x):
         x = self.dropout(torch.relu(self.linear_1(x)))
@@ -102,12 +105,12 @@ class NormLayer(torch.nn.Module):
         super().__init__()
         self.size = d_model
         # 层归一化包含两个可以学习的参数
-        self.alpha = torch.nn.Parameter(torch.ones(self.size))
-        self.bias = torch.nn.Parameter(torch.zeros(self.size))
+        self.alpha = torch.nn.Parameter(torch.ones(self.size)).to(DEVICE)
+        self.bias = torch.nn.Parameter(torch.zeros(self.size)).to(DEVICE)
         self.eps = eps
 
     def forward(self, x):
-        # 这里的减法和除法是逐元素操作。
+        # 这里的减法和除法是逐元素操作。# -1表示沿最后一个维度
         norm = self.alpha * (x - x.mean(dim=-1, keepdim=True)) / (x.std(dim=-1, keepdim=True) + self.eps) + self.bias
         return norm
 
@@ -161,7 +164,7 @@ class DecoderLayer(torch.nn.Module):
         self.attn_2 = MultiHeadAttention(heads, d_model, dropout=dropout)
         self.ff = FeedForward(d_model, dropout=dropout)
 
-    # src_mask是方的，trg_mask是下三角的
+    # src_mask是方的，trg_mask是下(上)三角的
     def forward(self, x, mem, mem_mask, trg_mask):
         x2 = self.norm_1(x)
         x = x + self.dropout_1(self.attn_1(x2, x2, x2, trg_mask))
@@ -207,4 +210,3 @@ class Transformer(torch.nn.Module):
 
     def decode(self, tgt: Tensor, mem: Tensor, mem_mask, tgt_mask: Tensor):
         return self.decoder(tgt, mem, mem_mask, tgt_mask)
-
