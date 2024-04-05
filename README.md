@@ -15,4 +15,4 @@
 
 8. weibo_spider目录里是微博爬虫代码
 
-9. gpt.py为gpt2，有些地方没按官方的来，例如用了Relu代替了Gelu
+9. gpt.py为改编的gpt2的代码，包含训练代码和生成代码。
