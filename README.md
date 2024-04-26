@@ -16,3 +16,5 @@
 8. weibo_spider目录里是微博爬虫代码
 
 9. gpt.py为改编的gpt2的代码，包含训练代码和生成代码。
+
+10. auto_differential是使用python编写的计算图自动微分程序。实现了神经网络中常见的一些算子。
