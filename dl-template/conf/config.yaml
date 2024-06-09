@@ -1,0 +1,22 @@
+algorithm:
+  learning_rate: 0.05
+  optimizer: SGD
+
+train:
+  num_epochs: 10
+  snapshot_path: snapshot/snapshot.pth
+  save_interval: 20
+  evaluate_interval_steps: 40
+  evaluate_interval_epochs: 1
+
+data:
+  batch_size: 128
+  test_batch_size: 1000
+
+wandb:
+  project: neural-ode
+  entity: superposed-tree
+
+hydra:
+  run:
+    dir: hydra_outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
